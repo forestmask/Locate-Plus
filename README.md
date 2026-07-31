@@ -1,100 +1,65 @@
 # Locate Plus
 
-Server-side scanning, inspection and safe-teleport commands for **Minecraft 1.20.1 / Fabric**.
+Server-side scanning and inspection commands for **Minecraft 1.20.1 / Fabric**.
 
 Vanilla `/locate` only finds structures and biomes. This finds anything: any block, any entity,
 modded or not.
 
-No client mod required. Players joining a server with it installed do not need anything.
-
----
+Requires Fabric API. No client install needed.
 
 ## Commands
 
 | Command | What it does |
 |---|---|
 | `/lp` | In-game command list |
-| `/locate block <id\|#tag> [n chunks\|blocks] [forceload]` | Nearest matching block |
-| `/locate entity <id\|#tag> [n chunks\|blocks] [forceload]` | Nearest matching entity |
-| `/locate biome\|structure\|poi <id\|#tag>` | Vanilla searches with a safe-teleport button |
-| `/inspect <x> <y> <z> [forceload]` | Everything about one position |
-| `/safetp [targets] <destination>` | Teleport somewhere you can stand |
+| `/locate block <id\|#tag> <n> chunks\|blocks` | Nearest matching block |
+| `/locate entity <id\|#tag> <n> chunks\|blocks` | Nearest matching entity |
+| `/locate biome\|structure\|poi <id\|#tag>` | Vanilla searches, with a safe-teleport button |
+| `/inspect <x> <y> <z>` | Redstone, light, mob spawning, crops, containers, entity data |
+| `/safetp [targets] <destination>` | Teleport somewhere you can actually stand |
 | `/glow <target> <n> chunks\|blocks` | Outline entities through terrain |
-| `/analyzechunks blocks\|entities\|both <n> chunks\|blocks [export] [forceload]` | Survey an area |
+| `/analyzechunks blocks\|entities\|both <n> chunks\|blocks [export]` | Survey an area |
 | `/purgeentities <target> <n> chunks\|blocks [export]` | Remove entities, with a log |
 
-All commands need permission level 2 (OP, or cheats in singleplayer).
+Needs permission level 2. Add `forceload` to most commands to include unloaded chunks.
 
-See [GUIDE.md](GUIDE.md) for full documentation with examples.
+## Good to know
 
----
+**The radius unit is required.** Write `64 blocks` or `4 chunks`, never just `64`. Plural only.
+Both units are echoed back so nothing is ambiguous.
 
-## Building
+**Chunk counts are literal.** `4 chunks` scans exactly four chunks, starting with the one you are
+standing in and spreading outwards. A block radius covers whatever chunks that distance reaches.
 
-Requires **JDK 17**.
+**Radius is horizontal.** The full height of the world is always included, so flying high above
+something still finds it.
 
-```
-./gradlew build
-```
+**Targets accept ids, tags and selectors.** `minecraft:zombie`, `#minecraft:skeletons`, `@e`,
+`@a`, `@e[type=minecraft:creeper]`. Modded ids work in any namespace. Searching a tag lists each
+matching type separately with its own count and teleport button.
 
-The jar lands in `build/libs/`. On Windows use `gradlew.bat build`.
+**Nothing is force-loaded unless you ask.** Without `forceload` a scan only reads chunks already
+in memory and never generates terrain. Skipped chunks are counted and reported.
 
-To run the tests only:
+**No radius limit.** Scan a hundred chunks if you want. Large scans warn about the cost and then
+run. Scans are sliced across ticks, so they do not freeze the server.
 
-```
-./gradlew test
-```
+**Teleports tell you where you landed**, for example `(3 blocks below the target)`. Slabs, stairs,
+paths and shallow water all count as somewhere you can stand. The `[Teleport]` buttons in chat run
+`/safetp`, so they get the same safety checks.
 
----
+**Exports** are written to `config/locate-plus/exports/` as a text file, on a background thread.
+Chat only shows the top 15 types; use `export` for every coordinate.
 
-## Project layout
+**Players are never removed** by `/purgeentities`, however the target is written. It also produces
+no drops, no XP and no death messages.
 
-```
-src/main/java/dev/locateplus/
-├── command/    Brigadier registration, one file per command
-├── core/       scheduler, tick tasks, constants, logging
-├── entity/     entity target resolution
-├── inspect/    the /inspect sections
-├── model/      scan results and records
-├── platform/   loader abstraction
-├── report/     chat formatting and file export
-├── scan/       scan jobs, chunk access, highlights
-├── teleport/   safe-location search
-└── util/       small helpers
-```
+**Glow and particles last one minute.** `/glow` is entities only.
 
-The mod loader is only referenced in two files, `fabric/FabricPlatform.java` and
-`fabric/LocatePlusFabric.java`. Everything else is plain Minecraft and JDK code behind a
-`Platform` interface, which is what makes a Forge or NeoForge port practical later.
+## Defaults
 
-See [PORTING.md](PORTING.md) for notes on other loaders and Minecraft versions, including a
-"where to change things" table.
-
----
-
-## Testing
-
-[TESTING.md](TESTING.md) is a manual checklist covering every command and error path.
-
-The automated tests cover argument parsing, chunk region maths, the export memory budget, and
-command-tree serialisability. That last one matters: an unregistered argument type will kick every
-joining player with "Invalid player data", and the console cannot catch it.
-
----
-
-## Contributing
-
-Issues and pull requests are welcome.
-
-If you add a command, keep the argument types vanilla. Custom `ArgumentType` classes have to be
-registered on the client as well, and an unregistered one breaks login. `CommandTreeSerializationTest`
-enforces this.
-
----
-
-## License
-
-GPL-3.0-or-later. See [LICENSE](LICENSE).
-
-Anyone may use, modify and redistribute this mod, including in modpacks. Any fork or addon built
-on it must also be open source under the same license.
+| | |
+|---|---|
+| `/locate` radius | 64 blocks |
+| `/analyzechunks` radius | 4 chunks |
+| Permission level | 2 (OP, or cheats in singleplayer) |
