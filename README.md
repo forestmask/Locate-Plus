@@ -63,3 +63,9 @@ no drops, no XP and no death messages.
 | `/locate` radius | 64 blocks |
 | `/analyzechunks` radius | 4 chunks |
 | Permission level | 2 (OP, or cheats in singleplayer) |
+
+## Future
+
+It's just me making this in my free time. 
+
+I want to port it to other versions and loaders eventually, but it'll happen when it happens. Thanks for checking it out.
