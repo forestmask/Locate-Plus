@@ -150,3 +150,7 @@ settings. Out-of-range values are clamped rather than rejected.
 | `/lp analyze` radius | 4 chunks |
 | Permission level | 2 (OP, or cheats in singleplayer) |
 | Scan budget | 8 ms per tick |
+
+## AI Disclaimer
+
+I used AI for the README and descriptions to help clean up my writing and grammar. Hope that's okay!
