@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "locateplus",
+  "version": "${version}",
+  "name": "Locate Plus",
+  "description": "Find any block, entity or item, not just structures. Adds /locate block, /locate entity and /locate item, which tracks an item down in chests, on the ground, on mobs and in player inventories. Surveys whole areas with /lp analyze, reads everything about a position with /lp inspect, marks what it finds with an outline you can see through terrain, and teleports without dropping you inside a wall. Exports to a text file and is configurable. Server-side only, no client install needed. Type /lp for the command list.",
+  "authors": [
+    "forest_mask"
+  ],
+  "contact": {},
+  "license": "GPL-3.0-or-later",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.locateplus.fabric.LocatePlusFabric"
+    ],
+    "server": [
+      "dev.locateplus.fabric.LocatePlusFabric"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "fabric-api": "*",
+    "minecraft": "~1.20.1",
+    "java": ">=17"
+  },
+  "suggests": {}
+}
