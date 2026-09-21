@@ -3,7 +3,7 @@
 Find any block, entity or item, not just structures. Scans, surveys, inspects and teleports you
 there safely. Server-side only, no client install needed.
 
-Fabric.** Requires Fabric API.
+Requires Fabric API.
 
 ## Commands
 
