@@ -1,11 +1,10 @@
+# Version
+
+Minecraft 1.20.1 / Fabric.
+
 # Locate Plus
 
-Server-side scanning and inspection commands for **Minecraft 1.20.1 / Fabric**.
-
-Vanilla `/locate` only finds structures and biomes. This finds anything: any block, any entity,
-modded or not.
-
-Requires Fabric API. No client install needed.
+Find any block, entity or item, not just structures. Scans, surveys, inspects and teleports you there safely. Server-side only, no client install needed.
 
 ## Commands
 
@@ -151,7 +150,3 @@ settings. Out-of-range values are clamped rather than rejected.
 | `/lp analyze` radius | 4 chunks |
 | Permission level | 2 (OP, or cheats in singleplayer) |
 | Scan budget | 8 ms per tick |
-
-## Changelog
-
-See [CHANGELOG.md](CHANGELOG.md).
