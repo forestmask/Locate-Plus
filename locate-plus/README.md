@@ -1,9 +1,7 @@
 # Locate Plus
 
 Find any block, entity or item, not just structures. Scans, surveys, inspects and teleports you
-there safely. Server-side only, no client install needed.
-
-Requires Fabric API.
+there safely. Server-side only, no client install needed. Requires Fabric API.
 
 ## Commands
 
